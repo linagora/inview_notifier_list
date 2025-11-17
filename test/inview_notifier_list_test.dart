@@ -6,8 +6,7 @@ import '../example/lib/csv_example.dart';
 
 void main() {
   final TestWidgetsFlutterBinding binding =
-      TestWidgetsFlutterBinding.ensureInitialized()
-          as TestWidgetsFlutterBinding;
+      TestWidgetsFlutterBinding.ensureInitialized();
   group('test the inViewState', () {
     test('only n number of contexts are stored', () {
       final InViewState state = InViewState(

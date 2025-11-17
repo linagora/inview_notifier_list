@@ -56,6 +56,15 @@ class InViewState extends ChangeNotifier {
     // whether it is in the viewport
     _contexts.forEach((WidgetData item) {
       // Retrieve the RenderObject, linked to a specific item
+
+      if (item.context == null) {
+        return;
+      }
+
+      if (item.context?.mounted == false) {
+        return;
+      }
+
       final RenderObject? renderObject = item.context!.findRenderObject();
 
       // If none was to be found, or if not attached, leave by now
@@ -63,9 +72,14 @@ class InViewState extends ChangeNotifier {
         return;
       }
 
+      // Check if the renderObject is a RenderBox and has been laid out
+      if (renderObject is! RenderBox || !renderObject.hasSize) {
+        return;
+      }
+
       //Retrieve the viewport related to the scroll area
       final RenderAbstractViewport viewport =
-          RenderAbstractViewport.of(renderObject)!;
+          RenderAbstractViewport.of(renderObject);
       final double vpHeight = notification.metrics.viewportDimension;
       final RevealedOffset vpOffset =
           viewport.getOffsetToReveal(renderObject, 0.0);
